@@ -99,7 +99,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return Functions.onEscapeOrBack(this, game, new ud405(game), keycode);
+        return false;
     }
 
     @Override

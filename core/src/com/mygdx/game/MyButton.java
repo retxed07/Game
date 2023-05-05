@@ -17,6 +17,14 @@ public class MyButton {
     private TextureRegion texture;
     private boolean isPressed = false;
 
+    public MyButton() {}
+
+    public MyButton(SplashScreen game, TextureRegion texture, String text) {
+        this.setTexture(texture);
+        this.setText(text);
+        this.setTextWidth(game, text);
+    }
+
     public int getTextWidth() {
         return textWidth;
     }

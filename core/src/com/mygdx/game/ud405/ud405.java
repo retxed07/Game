@@ -1,13 +1,11 @@
 package com.mygdx.game.ud405;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -31,110 +29,79 @@ import com.mygdx.game.ud405._1_4_03_Demo_Cameras.OrthographicProjection;
 import com.mygdx.game.ud405._1_4_04_Demo_SolarSystem.Closeup;
 import com.mygdx.game.ud405._1_4_05_Solution_OrthographicCamera.OrthographicCameraExercise;
 import com.mygdx.game.ud405._1_4_06_Demo_Viewports.ViewportsDemo;
+import com.mygdx.game.ud405._1_4_07_Solution_Viewports.ViewportsExercise;
+import com.mygdx.game.ud405._1_4_08_Solution_SmileyFace.SmileyFace;
+import com.mygdx.game.ud405._1_4_09_Demo_Text.TextDemo;
+import com.mygdx.game.ud405._1_4_10_Solution_WordCloud.WordCloud;
+import com.mygdx.game.ud405._1_4_11_Solution_CyclicOverlap.CyclicOverlap;
 
-public class ud405 extends InputAdapter implements Screen {
+public class ud405 implements Screen, InputProcessor {
     SplashScreen game;
-    MyButton button_1_2_01, button_1_3_01, button_1_3_02, button_1_3_03, button_1_3_04,
-            button_1_3_05, button_1_3_06, button_1_3_07, button_1_3_08, button_1_3_09,
-            button_1_4_01, button_1_4_02, button_1_4_03, button_1_4_04, button_1_4_05,
-            button_1_4_06;
     OrthographicCamera orthographicCamera;
     Viewport viewport;
-    int screenWidth = 800;
-    int screenHeight = 480;
-    int moveSpeed = 3;
+    int defaultWidth = 800, defaultHeight = 480;
+
+    MyButton button_1_2_01;
+    MyButton button_1_3_01;
+    MyButton button_1_3_02;
+    MyButton button_1_3_03;
+    MyButton button_1_3_04;
+    MyButton button_1_3_05;
+    MyButton button_1_3_06;
+    MyButton button_1_3_07;
+    MyButton button_1_3_08;
+    MyButton button_1_3_09;
+    MyButton button_1_4_01;
+    MyButton button_1_4_02;
+    MyButton button_1_4_03;
+    MyButton button_1_4_04;
+    MyButton button_1_4_05;
+    MyButton button_1_4_06;
+    MyButton button_1_4_07;
+    MyButton button_1_4_08;
+    MyButton button_1_4_09;
+    MyButton button_1_4_10;
+    MyButton button_1_4_11;
+    int moveSpeedXNegative = 0;
+    int moveSpeedXPositive = 0;
+    int moveSpeedYNegative = 0;
+    int moveSpeedYPositive = 0;
+    int moveSpeed = 10;
 
     public ud405(SplashScreen game) {
         this.game = game;
 
-        button_1_2_01 = new MyButton();
-        button_1_2_01.setTexture(game.button_idle);
-        button_1_2_01.setText("_1_2_01_Demo_GettingStartedWithLibGDX");
-        button_1_2_01.setTextWidth(game, button_1_2_01.getText());
-
-        button_1_3_01 = new MyButton();
-        button_1_3_01.setTexture(game.button_idle);
-        button_1_3_01.setText("_1_3_01_Demo_DrawingPoints");
-        button_1_3_01.setTextWidth(game, button_1_3_01.getText());
-
-        button_1_3_02 = new MyButton();
-        button_1_3_02.setTexture(game.button_idle);
-        button_1_3_02.setText("_1_3_02_Exercise_DrawAStarfield");
-        button_1_3_02.setTextWidth(game, button_1_3_02.getText());
-
-        button_1_3_03 = new MyButton();
-        button_1_3_03.setTexture(game.button_idle);
-        button_1_3_03.setText("_1_3_03_Demo_DrawingLines");
-        button_1_3_03.setTextWidth(game, button_1_3_03.getText());
-
-        button_1_3_04 = new MyButton();
-        button_1_3_04.setTexture(game.button_idle);
-        button_1_3_04.setText("_1_3_04_Solution_ConnectTheDots");
-        button_1_3_04.setTextWidth(game, button_1_3_04.getText());
-
-        button_1_3_05 = new MyButton();
-        button_1_3_05.setTexture(game.button_idle);
-        button_1_3_05.setText("_1_3_05_Solution_DrawASpiral");
-        button_1_3_05.setTextWidth(game, button_1_3_05.getText());
-
-        button_1_3_06 = new MyButton();
-        button_1_3_06.setTexture(game.button_idle);
-        button_1_3_06.setText("_1_3_06_Demo_DrawingRectangles");
-        button_1_3_06.setTextWidth(game, button_1_3_06.getText());
-
-        button_1_3_07 = new MyButton();
-        button_1_3_07.setTexture(game.button_idle);
-        button_1_3_07.setText("_1_3_07_Solution_RectangularFlower");
-        button_1_3_07.setTextWidth(game, button_1_3_07.getText());
-
-        button_1_3_08 = new MyButton();
-        button_1_3_08.setTexture(game.button_idle);
-        button_1_3_08.setText("_1_3_08_Solution_DrawTheCantorGasket");
-        button_1_3_08.setTextWidth(game, button_1_3_08.getText());
-
-        button_1_3_09 = new MyButton();
-        button_1_3_09.setTexture(game.button_idle);
-        button_1_3_09.setText("_1_3_09_Solution_DrawTheDragonCurve");
-        button_1_3_09.setTextWidth(game, button_1_3_09.getText());
-
-        button_1_4_01 = new MyButton();
-        button_1_4_01.setTexture(game.button_idle);
-        button_1_4_01.setText("_1_4_01_Demo_CirclesAndArcs");
-        button_1_4_01.setTextWidth(game, button_1_4_01.getText());
-
-        button_1_4_02 = new MyButton();
-        button_1_4_02.setTexture(game.button_idle);
-        button_1_4_02.setText("_1_4_02_Solution_StickFigure");
-        button_1_4_02.setTextWidth(game, button_1_4_02.getText());
-
-        button_1_4_03 = new MyButton();
-        button_1_4_03.setTexture(game.button_idle);
-        button_1_4_03.setText("_1_4_03_Demo_Cameras");
-        button_1_4_03.setTextWidth(game, button_1_4_03.getText());
-
-        button_1_4_04 = new MyButton();
-        button_1_4_04.setTexture(game.button_idle);
-        button_1_4_04.setText("_1_4_04_Demo_SolarSystem");
-        button_1_4_04.setTextWidth(game, button_1_4_04.getText());
-
-        button_1_4_05 = new MyButton();
-        button_1_4_05.setTexture(game.button_idle);
-        button_1_4_05.setText("_1_4_05_Solution_OrthographicCamera");
-        button_1_4_05.setTextWidth(game, button_1_4_05.getText());
-
-        button_1_4_06 = new MyButton();
-        button_1_4_06.setTexture(game.button_idle);
-        button_1_4_06.setText("_1_4_06_Demo_Viewports");
-        button_1_4_06.setTextWidth(game, button_1_4_06.getText());
+        button_1_2_01 = new MyButton(game, game.button_idle, "_1_2_01_Demo_GettingStartedWithLibGDX");
+        button_1_3_01 = new MyButton(game, game.button_idle, "_1_3_01_Demo_DrawingPoints");
+        button_1_3_02 = new MyButton(game, game.button_idle, "_1_3_02_Exercise_DrawAStarfield");
+        button_1_3_03 = new MyButton(game, game.button_idle, "_1_3_03_Demo_DrawingLines");
+        button_1_3_04 = new MyButton(game, game.button_idle, "_1_3_04_Solution_ConnectTheDots");
+        button_1_3_05 = new MyButton(game, game.button_idle, "_1_3_05_Solution_DrawASpiral");
+        button_1_3_06 = new MyButton(game, game.button_idle, "_1_3_06_Demo_DrawingRectangles");
+        button_1_3_07 = new MyButton(game, game.button_idle, "_1_3_07_Solution_RectangularFlower");
+        button_1_3_08 = new MyButton(game, game.button_idle, "_1_3_08_Solution_DrawTheCantorGasket");
+        button_1_3_09 = new MyButton(game, game.button_idle, "_1_3_09_Solution_DrawTheDragonCurve");
+        button_1_4_01 = new MyButton(game, game.button_idle, "_1_4_01_Demo_CirclesAndArcs");
+        button_1_4_02 = new MyButton(game, game.button_idle, "_1_4_02_Solution_StickFigure");
+        button_1_4_03 = new MyButton(game, game.button_idle, "_1_4_03_Demo_Cameras");
+        button_1_4_04 = new MyButton(game, game.button_idle, "_1_4_04_Demo_SolarSystem");
+        button_1_4_05 = new MyButton(game, game.button_idle, "_1_4_05_Solution_OrthographicCamera");
+        button_1_4_06 = new MyButton(game, game.button_idle, "_1_4_06_Demo_Viewports");
+        button_1_4_07 = new MyButton(game, game.button_idle, "_1_4_07_Solution_Viewports");
+        button_1_4_08 = new MyButton(game, game.button_idle, "_1_4_08_Solution_SmileyFace");
+        button_1_4_09 = new MyButton(game, game.button_idle, "_1_4_09_Demo_Text");
+        button_1_4_10 = new MyButton(game, game.button_idle, "_1_4_10_Solution_WordCloud");
+        button_1_4_11 = new MyButton(game, game.button_idle, "_1_4_11_Solution_CyclicOverlap");
 
         orthographicCamera = new OrthographicCamera();
-        orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
+        orthographicCamera.setToOrtho(false, defaultWidth, defaultHeight);
         viewport = new ScreenViewport(orthographicCamera);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     @Override
@@ -145,6 +112,8 @@ public class ud405 extends InputAdapter implements Screen {
         game.batch.setProjectionMatrix(orthographicCamera.combined);
         game.func.getTouchPos().set(Gdx.input.getX(), Gdx.input.getY(), 0);
         orthographicCamera.unproject(game.func.getTouchPos());
+        orthographicCamera.position.x += moveSpeedXNegative + moveSpeedXPositive;
+        orthographicCamera.position.y += moveSpeedYNegative + moveSpeedYPositive;
 
         game.batch.begin();
         game.func.drawButton(button_1_2_01);
@@ -163,43 +132,96 @@ public class ud405 extends InputAdapter implements Screen {
         game.func.drawButton(button_1_4_04);
         game.func.drawButton(button_1_4_05);
         game.func.drawButton(button_1_4_06);
+        game.func.drawButton(button_1_4_07);
+        game.func.drawButton(button_1_4_08);
+        game.func.drawButton(button_1_4_09);
+        game.func.drawButton(button_1_4_10);
+        game.func.drawButton(button_1_4_11);
         game.batch.end();
-
-        game.func.buttonListener(button_1_2_01, this, new UdacityScreen(game));
-        game.func.buttonListener(button_1_3_01, this, new PointDrawing(game));
-        game.func.buttonListener(button_1_3_02, this, new Starfield(game));
-        game.func.buttonListener(button_1_3_03, this, new DrawingLines(game));
-        game.func.buttonListener(button_1_3_04, this, new ConnectTheDots(game));
-        game.func.buttonListener(button_1_3_05, this, new DrawASpiral(game));
-        game.func.buttonListener(button_1_3_06, this, new DrawingRectangles(game));
-        game.func.buttonListener(button_1_3_07, this, new RectangularFlower(game));
-        game.func.buttonListener(button_1_3_08, this, new DrawTheCantorGasket(game));
-        game.func.buttonListener(button_1_3_09, this, new DragonCurve(game));
-        game.func.buttonListener(button_1_4_01, this, new CirclesAndArcs(game));
-        game.func.buttonListener(button_1_4_02, this, new StickFigure(game));
-        game.func.buttonListener(button_1_4_03, this, new OrthographicProjection(game));
-        game.func.buttonListener(button_1_4_04, this, new Closeup(game));
-        game.func.buttonListener(button_1_4_05, this, new OrthographicCameraExercise(game));
-        game.func.buttonListener(button_1_4_06, this, new ViewportsDemo(game));
-
-        Functions.cameraMovement(orthographicCamera, moveSpeed);
-//        Functions.onEscapeOrBack(this, game, new MainMenuScreen(game));
     }
 
     @Override
-    public boolean keyDown(int keycode) {
-        System.out.println("ud405keydown " + keycode + "|" + Input.Keys.ESCAPE);
-        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
-            game.setScreen(new MainMenuScreen(game));
-            return true;
-        }
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        game.func.onTouchDownRect(button_1_2_01);
+        game.func.onTouchDownRect(button_1_3_01);
+        game.func.onTouchDownRect(button_1_3_02);
+        game.func.onTouchDownRect(button_1_3_03);
+        game.func.onTouchDownRect(button_1_3_04);
+        game.func.onTouchDownRect(button_1_3_05);
+        game.func.onTouchDownRect(button_1_3_06);
+        game.func.onTouchDownRect(button_1_3_07);
+        game.func.onTouchDownRect(button_1_3_08);
+        game.func.onTouchDownRect(button_1_3_09);
+        game.func.onTouchDownRect(button_1_4_01);
+        game.func.onTouchDownRect(button_1_4_02);
+        game.func.onTouchDownRect(button_1_4_03);
+        game.func.onTouchDownRect(button_1_4_04);
+        game.func.onTouchDownRect(button_1_4_05);
+        game.func.onTouchDownRect(button_1_4_06);
+        game.func.onTouchDownRect(button_1_4_07);
+        game.func.onTouchDownRect(button_1_4_08);
+        game.func.onTouchDownRect(button_1_4_09);
+        game.func.onTouchDownRect(button_1_4_10);
+        game.func.onTouchDownRect(button_1_4_11);
+        return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        game.func.onHover(button_1_2_01);
+        game.func.onHover(button_1_3_01);
+        game.func.onHover(button_1_3_02);
+        game.func.onHover(button_1_3_03);
+        game.func.onHover(button_1_3_04);
+        game.func.onHover(button_1_3_05);
+        game.func.onHover(button_1_3_06);
+        game.func.onHover(button_1_3_07);
+        game.func.onHover(button_1_3_08);
+        game.func.onHover(button_1_3_09);
+        game.func.onHover(button_1_4_01);
+        game.func.onHover(button_1_4_02);
+        game.func.onHover(button_1_4_03);
+        game.func.onHover(button_1_4_04);
+        game.func.onHover(button_1_4_05);
+        game.func.onHover(button_1_4_06);
+        game.func.onHover(button_1_4_07);
+        game.func.onHover(button_1_4_08);
+        game.func.onHover(button_1_4_09);
+        game.func.onHover(button_1_4_10);
+        game.func.onHover(button_1_4_11);
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        game.func.onTouchUpRect(button_1_2_01, this, new UdacityScreen(game));
+        game.func.onTouchUpRect(button_1_3_01, this, new PointDrawing(game));
+        game.func.onTouchUpRect(button_1_3_02, this, new Starfield(game));
+        game.func.onTouchUpRect(button_1_3_03, this, new DrawingLines(game));
+        game.func.onTouchUpRect(button_1_3_04, this, new ConnectTheDots(game));
+        game.func.onTouchUpRect(button_1_3_05, this, new DrawASpiral(game));
+        game.func.onTouchUpRect(button_1_3_06, this, new DrawingRectangles(game));
+        game.func.onTouchUpRect(button_1_3_07, this, new RectangularFlower(game));
+        game.func.onTouchUpRect(button_1_3_08, this, new DrawTheCantorGasket(game));
+        game.func.onTouchUpRect(button_1_3_09, this, new DragonCurve(game));
+        game.func.onTouchUpRect(button_1_4_01, this, new CirclesAndArcs(game));
+        game.func.onTouchUpRect(button_1_4_02, this, new StickFigure(game));
+        game.func.onTouchUpRect(button_1_4_03, this, new OrthographicProjection(game));
+        game.func.onTouchUpRect(button_1_4_04, this, new Closeup(game));
+        game.func.onTouchUpRect(button_1_4_05, this, new OrthographicCameraExercise(game));
+        game.func.onTouchUpRect(button_1_4_06, this, new ViewportsDemo(game));
+        game.func.onTouchUpRect(button_1_4_07, this, new ViewportsExercise(game));
+        game.func.onTouchUpRect(button_1_4_08, this, new SmileyFace(game));
+        game.func.onTouchUpRect(button_1_4_09, this, new TextDemo(game));
+        game.func.onTouchUpRect(button_1_4_10, this, new WordCloud(game));
+        game.func.onTouchUpRect(button_1_4_11, this, new CyclicOverlap(game));
         return true;
     }
 
     @Override
     public void resize(int width, int height) {
-        screenWidth = width;
-        screenHeight = height;
+        defaultWidth = width;
+        defaultHeight = height;
         game.func.reposition(button_1_2_01, 50, height - 60, 30, 10);
         game.func.reposition(button_1_3_01, 50, height - 120, 30, 10);
         game.func.reposition(button_1_3_02, 50, height - 180, 30, 10);
@@ -216,7 +238,12 @@ public class ud405 extends InputAdapter implements Screen {
         game.func.reposition(button_1_4_04, 50, height - 840, 30, 10);
         game.func.reposition(button_1_4_05, 50, height - 900, 30, 10);
         game.func.reposition(button_1_4_06, 50, height - 960, 30, 10);
-        orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
+        game.func.reposition(button_1_4_07, 50, height - 1020, 30, 10);
+        game.func.reposition(button_1_4_08, 50, height - 1080, 30, 10);
+        game.func.reposition(button_1_4_09, 50, height - 1140, 30, 10);
+        game.func.reposition(button_1_4_10, 50, height - 1200, 30, 10);
+        game.func.reposition(button_1_4_11, 50, height - 1260, 30, 10);
+        orthographicCamera.setToOrtho(false, defaultWidth, defaultHeight);
         viewport.update(width, height);
     }
 
@@ -224,6 +251,53 @@ public class ud405 extends InputAdapter implements Screen {
     public void dispose() {
         game.batch.dispose();
         game.asepriteFont.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            if (keycode == Input.Keys.W) {
+                moveSpeedYNegative = -moveSpeed;
+            } else if (keycode == Input.Keys.S) {
+                moveSpeedYPositive = moveSpeed;
+            } else if (keycode == Input.Keys.A) {
+                moveSpeedXPositive = moveSpeed;
+            } else if (keycode == Input.Keys.D) {
+                moveSpeedXNegative = -moveSpeed;
+            }
+        }
+        return Functions.onEscapeOrBack(this, game, new MainMenuScreen(game), keycode);
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            if (keycode == Input.Keys.W) {
+                moveSpeedYNegative = 0;
+            } else if (keycode == Input.Keys.S) {
+                moveSpeedYPositive = 0;
+            } else if (keycode == Input.Keys.A) {
+                moveSpeedXPositive = 0;
+            } else if (keycode == Input.Keys.D) {
+                moveSpeedXNegative = 0;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
     }
 
     @Override

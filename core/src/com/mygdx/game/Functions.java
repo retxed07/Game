@@ -1,13 +1,10 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.ud405.ud405;
 
 public class Functions {
     private SplashScreen game;
@@ -23,20 +20,6 @@ public class Functions {
             return true;
         }
         return true;
-    }
-
-    public static void cameraMovement(OrthographicCamera orthographicCamera, int moveSpeed) {
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                orthographicCamera.position.y -= moveSpeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                orthographicCamera.position.y += moveSpeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                orthographicCamera.position.x += moveSpeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                orthographicCamera.position.x -= moveSpeed;
-            }
-        }
     }
 
     public void setGame(SplashScreen game) {
@@ -73,11 +56,6 @@ public class Functions {
         myButton.setY(centerY + y);
         myButton.setTextX((myButton.getX() + textX));
         myButton.setTextY((myButton.getY() + myButton.getHeight() / 2) + textY);
-    }
-
-    public void drawButton(MyButton myButton, Screen _this, Screen screen) {
-        drawButton(myButton);
-        buttonListener(myButton, _this, screen);
     }
 
     public void drawButton(MyButton myButton) {
@@ -127,7 +105,6 @@ public class Functions {
         if (myButton.getTexture() == game.button_hover && myButton.getIsPressed()) {
             myButton.textCancelMoveDown();
             _this.hide();
-//            _this.dispose();
             game.setScreen(screen);
         }
     }
@@ -148,16 +125,21 @@ public class Functions {
         }
     }
 
-    public boolean isTouched(MyButton myButton) {
-        if (Gdx.input.isTouched()) {
-            if (myButton.getRect().contains(touchPos.x, touchPos.y)) {
-                myButton.textMoveDown();
-                sound_button_push.stop();
-                sound_button_push.play();
-                myButton.setTexture(game.button_pressed);
-                return true;
-            }
+    public void onTouchDownRect(MyButton myButton) {
+        if (myButton.getRect().contains(touchPos.x, touchPos.y)) {
+            myButton.textMoveDown();
+            sound_button_push.stop();
+            sound_button_push.play();
+            myButton.setTexture(game.button_pressed);
         }
-        return false;
+    }
+
+    public void onTouchUpRect(MyButton myButton, Screen _this, Screen screen) {
+        if (myButton.getRect().contains(touchPos.x, touchPos.y)) {
+            myButton.textCancelMoveDown();
+            myButton.setTexture(game.button_hover);
+            _this.hide();
+            game.setScreen(screen);
+        }
     }
 }
