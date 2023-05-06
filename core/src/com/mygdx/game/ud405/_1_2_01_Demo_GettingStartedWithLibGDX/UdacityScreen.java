@@ -39,6 +39,11 @@ public class UdacityScreen implements Screen, InputProcessor {
     }
 
     @Override
+    public boolean keyDown(int keycode) {
+        return Functions.onEscapeOrBack(this, game, new ud405(game), keycode);
+    }
+
+    @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -75,11 +80,6 @@ public class UdacityScreen implements Screen, InputProcessor {
         PooledEffect effect = touchEffectPool.obtain();
         effect.setPosition(x, Gdx.graphics.getHeight() - y);
         effects.add(effect);
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return Functions.onEscapeOrBack(this, game, new ud405(game), keycode);
     }
 
     @Override
